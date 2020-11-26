@@ -28,9 +28,9 @@
 
     <main class="w3-container">
       <div id="content">
-        <hr class="w3-bottombar w3-border-light-gray post-separator">
+        <hr class="w3-topbar w3-border-light-gray post-separator">
         {{ content }}
-        <hr class="w3-bottombar w3-border-light-gray post-separator">
+        <hr class="w3-topbar w3-border-light-gray post-separator">
         <div class="w3-medium">
           {% for tag in meta.tags %}
             <a class="w3-text-gray w3-hover-border-gray w3-border-white w3-bottombar" href="{{ base_url }}/?tags&tag={{ tag }}">#{{ tag }}</a>
