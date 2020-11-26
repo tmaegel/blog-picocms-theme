@@ -16,30 +16,35 @@
       <link rel="canonical" href="{{ current_page.url }}" />
     {% endif %}
 
+    <link rel="stylesheet" href="{{ theme_url }}/css/lib/w3pro.css" type="text/css" />
     <link rel="stylesheet" href="{{ theme_url }}/css/style.css" type="text/css" />
   </head>
   <body{% if config.theme_config.widescreen %} class="widescreen"{% endif %}>
 
-    <div id="main" role="main">
+    <header class="w3-container">
+      <h1 id="page-title" class="w3-padding-32 w3-text-gray">{{ meta.title }}</h1>
+    </header>
 
-      <div id="header" role="banner">
-        <h1 id="page-title">{{ meta.title }}</h1>
-      </div>
-
+    <main class="w3-container">
       <div id="content">
         {{ content }}
       </div>
+    </main>
 
-    </div>
-
-    <div id="footer">
-      <div id="nav" role="navigation" tabindex="-1">
-        <a href="{{ base_url }}">{{ site_title }}</a>
-        {% for page in pages(depthOffset=-1) if page.title and not page.hidden %}
-          <a {% if page.id == current_page.id %} class="active"{% endif %} href="{{ page.url }}">{{ page.title }}</a>
-        {% endfor %}
+    <footer>
+      <div class="w3-bottom">
+        <div class="bar w3-bar w3-dark-gray">
+          <a class="padding-16 w3-bar-item w3-button w3-hover-dark-grey w3-text-white" href="{{ base_url }}">
+            {{ site_title }}
+          </a>
+          {% for page in pages(depthOffset=-1) if page.title and not page.hidden %}
+            <a class="padding-16 w3-bar-item w3-button w3-hover-dark-grey w3-topbar {% if page.url in current_page.url %} w3-text-white w3-border-white {% else %} w3-border-dark-gray w3-text-light-grey {% endif %}" href="{{ page.url }}">
+              {{ page.title }}
+            </a>
+          {% endfor %}
+        </div>
       </div>
-    </div>
+    </footer>
 
   </body>
 </html>

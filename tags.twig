@@ -16,23 +16,24 @@
       <link rel="canonical" href="{{ current_page.url }}" />
     {% endif %}
 
+    <link rel="stylesheet" href="{{ theme_url }}/css/lib/w3pro.css" type="text/css" />
     <link rel="stylesheet" href="{{ theme_url }}/css/style.css" type="text/css" />
   </head>
   <body{% if config.theme_config.widescreen %} class="widescreen"{% endif %}>
 
-    <div id="main" role="main">
+    {% set tag = url_param('tag', 'string') %}
+    {% set tags = get_all_tags() %}
 
-      {% set tag = url_param('tag', 'string') %}
-      {% set tags = get_all_tags() %}
+    {% block content %}
 
-      {% block content %}
+    {% if tag %}
 
-      {% if tag %}
+      {# List of all pages with a specified tag #}
+      <header class="w3-container">
+        <h1 id="page-title" class="w3-padding-32 w3-text-gray">Tag: #{{ tag }}</h1>
+      </header>
 
-        {# List of all pages with a specified tag #}
-        <div id="header" role="banner">
-          <h1 id="page-title">Tag: #{{ tag }}</h1>
-        </div>
+      <main class="w3-container">
         <div id="content">
           {% set year = 0 %}
           {% for page in pages if page.title and tags and not (page.id ends with 'index') %}
@@ -49,22 +50,29 @@
 
                   {% if year == 0 %}
                     <div class="post-group">
-                      <div class="post-year">
+                      <div class="post-year w3-xlarge w3-text-gray w3-margin-right opacity-3">
                         {{ act_year }}
                       </div>
-                    <ul>
+                    <ul class="w3-margin-left margin-0 padding-8-t">
                   {% else %}
                     {% if year != act_year %}
-                    </ul></div> <!-- End ul / post-group -->
-                    <div class="post-group">
-                      <div class="post-year">
-                        {{ act_year }}
-                      </div>
-                    <ul>
+                      </ul></div> <!-- End ul / post-group -->
+                      <hr class="w3-text-light-gray" style="margin:16px 0 32px 0">
+                      <div class="post-group">
+                        <div class="post-year w3-xlarge w3-text-gray w3-margin-right opacity-3">
+                          {{ act_year }}
+                        </div>
+                      <ul class="w3-margin-left margin-0 padding-8-t">
                     {% endif %}
                   {% endif %}
 
-                  <li><h2 class="post-title"><a href="{{ page.url }}">{{ page.title }}</a></h2></li>
+                  <li class="w3-margin-bottom">
+                    <a href="{{ page.url }}">
+                      <span class="w3-large w3-text-gray w3-hover-border-gray w3-border-white w3-bottombar padding-8-b">
+                        {{ page.title }}
+                      </span>
+                    </a>
+                  </li>
                   {% set year = act_year %}
 
               {% endif %}
@@ -73,34 +81,42 @@
           {% endfor %}
         </ul> <!-- End ul -->
         </div> <!-- End post-group -->
-        </div>
+      </div> <!-- End content -->
+    </main> <!-- End main -->
 
-      {% else %}
+    {% else %}
 
-        {# List of all tags used on the site #}
-        <div id="header" role="banner">
-          <h1 id="page-title">{{ meta.title }}</h1>
-        </div>
+      {# List of all tags used on the site #}
+      <header class="w3-container">
+        <h1 id="page-title" class="w3-padding-32 w3-text-gray">{{ meta.title }}</h1>
+      </header>
+
+      <main class="w3-container">
         <div id="content">
           {% for tag in tags|sort %}
-            <a class="page-tags" href="{{current_page.url}}&tag={{ tag }}">#{{ tag }}</a>
+            <a class="w3-large w3-text-gray w3-hover-border-gray w3-border-white w3-bottombar" href="{{current_page.url}}&tag={{ tag }}">#{{ tag }}</a>
           {% endfor %}
         </div>
+      </main>
 
-      {% endif %}
+    {% endif %}
 
-      {% endblock content %}
+    {% endblock content %}
 
-    </div>
-
-    <div id="footer">
-      <div id="nav" role="navigation" tabindex="-1">
-        <a href="{{ base_url }}">{{ site_title }}</a>
-        {% for page in pages(depthOffset=-1) if page.title and not page.hidden %}
-          <a {% if page.id == current_page.id %} class="active"{% endif %} href="{{ page.url }}">{{ page.title }}</a>
-        {% endfor %}
+    <footer>
+      <div class="w3-bottom">
+        <div class="bar w3-bar w3-dark-gray">
+          <a class="padding-16 w3-bar-item w3-button w3-hover-dark-grey w3-text-white" href="{{ base_url }}">
+            {{ site_title }}
+          </a>
+          {% for page in pages(depthOffset=-1) if page.title and not page.hidden %}
+            <a class="padding-16 w3-bar-item w3-button w3-hover-dark-grey w3-topbar {% if page.url in current_page.url %} w3-text-white w3-border-white {% else %} w3-border-dark-gray w3-text-light-grey {% endif %}" href="{{ page.url }}">
+              {{ page.title }}
+            </a>
+          {% endfor %}
+        </div>
       </div>
-    </div>
+    </footer>
 
   </body>
 </html>
