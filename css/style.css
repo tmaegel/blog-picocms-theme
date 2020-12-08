@@ -88,14 +88,21 @@ blockquote>cite {
 
 a:link {
   text-decoration: none;
+  color: #757575;
+  border-bottom: 2px solid;
+  border-color: white;
 }
 
 a:visited {
   text-decoration: none;
+  color: #757575;
+  border-color: white;
 }
 
 a:hover {
   text-decoration: none;
+  color: #757575;
+  border-color: #f1f1f1;
 }
 
 .margin-0 {
