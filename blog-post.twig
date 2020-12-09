@@ -32,7 +32,7 @@
         {{ content }}
         <hr class="w3-topbar w3-border-light-gray post-separator">
         <div class="w3-medium">
-          {% for tag in meta.tags %}
+          {% for tag in meta.tags|sort %}
             <a href="{{ base_url }}/?tags&tag={{ tag }}">#{{ tag }}</a>
           {% endfor %}
         </div>
